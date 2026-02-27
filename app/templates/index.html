@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NumerIQ — Numerical Methods Calculator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #1e3a5f;
+      color: white;
+      padding: 28px 40px;
+      text-align: center;
+    }
+
+    header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    header p  { margin-top: 6px; font-size: 14px; color: #a8c4e0; }
+
+    /* API status indicator */
+    .api-status {
+      margin-top: 10px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #6b7280;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    .dot.online  { background: #34d399; animation: none; }
+    .dot.offline { background: #f87171; animation: none; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .intro {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .cards {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 36px 28px;
+      width: 250px;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      border: 2px solid transparent;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.13);
+    }
+
+    .c-blue:hover   { border-color: #2563eb; }
+    .c-purple:hover { border-color: #7c3aed; }
+    .c-green:hover  { border-color: #059669; }
+
+    .icon {
+      font-size: 40px;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 9px 26px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .c-blue   .btn { background: #2563eb; }
+    .c-purple .btn { background: #7c3aed; }
+    .c-green  .btn { background: #059669; }
+
+    footer {
+      background: #1e3a5f;
+      color: #a8c4e0;
+      text-align: center;
+      padding: 14px;
+      font-size: 13px;
+    }
+
+    footer a { color: #a8c4e0; margin: 0 8px; text-decoration: none; }
+    footer a:hover { color: white; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>NumerIQ</h1>
+  <p>Numerical Methods Calculator — FastAPI Backend</p>
+  <div class="api-status">
+    <span class="dot" id="status-dot"></span>
+    <span id="status-text" style="color:#a8c4e0;">Checking API…</span>
+  </div>
+</header>
+
+<main>
+  <p class="intro">Three numerical methods, powered by a Python/FastAPI backend. Click any card to open the calculator.</p>
+
+  <div class="cards">
+
+    <a href="/power" class="card c-blue">
+      <span class="icon">λ</span>
+      <h2>Power Method</h2>
+      <p>Compute the dominant eigenvalue and eigenvector of a square matrix via iterative power iteration.</p>
+      <span class="btn">Open →</span>
+    </a>
+
+    <a href="/simpsons" class="card c-purple">
+      <span class="icon">∫</span>
+      <h2>Simpson's 1/3 Rule</h2>
+      <p>Numerically integrate f(x) over [a, b] using parabolic arc approximation with O(h⁴) accuracy.</p>
+      <span class="btn">Open →</span>
+    </a>
+
+    <a href="/adams" class="card c-green">
+      <span class="icon">∂</span>
+      <h2>Adams-Bashforth</h2>
+      <p>Solve first-order ODEs dy/dx = f(x,y) using the explicit multi-step method (AB-2 or AB-4).</p>
+      <span class="btn">Open →</span>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  NumerIQ &mdash;
+  <a href="/docs" target="_blank">Swagger UI</a> &bull;
+  <a href="/redoc" target="_blank">ReDoc</a> &bull;
+  Power Method &bull; Simpson's 1/3 Rule &bull; Adams-Bashforth
+</footer>
+
+<script>
+  /* ── Ping the API to show live/offline status ── */
+  const BASE = window.location.origin;   // e.g. http://127.0.0.1:8000
+
+  async function checkApi() {
+    const dot  = document.getElementById('status-dot');
+    const text = document.getElementById('status-text');
+    try {
+      const res = await fetch(`${BASE}/docs`, { method: 'HEAD', signal: AbortSignal.timeout(3000) });
+      if (res.ok) {
+        dot.className  = 'dot online';
+        text.textContent = 'API online';
+        text.style.color = '#34d399';
+      } else {
+        throw new Error('not ok');
+      }
+    } catch {
+      dot.className  = 'dot offline';
+      text.textContent = 'API offline — running in standalone mode';
+      text.style.color = '#f87171';
+    }
+  }
+
+  checkApi();
+</script>
+
+</body>
+</html>
