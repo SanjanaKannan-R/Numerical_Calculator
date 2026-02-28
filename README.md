@@ -48,6 +48,7 @@ numeriq_fastapi/
 ├── main.py            # Entry point
 └── requirements.txt
 
+
 🚀 Getting Started
 To get the project running locally, follow these steps:
 
@@ -72,3 +73,5 @@ uvicorn main:app --reload
 # 5. Access the application
 # Web UI: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 # API Docs (Swagger): [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+
