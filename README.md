@@ -37,7 +37,7 @@ NumerIQ is built on a *Clean Architecture* pattern, ensuring that the mathematic
 * *Pure Logic:* Algorithms are implemented in *Vanilla Python*. No NumPy or SciPy—purely to demonstrate algorithmic mastery.
 * *Frontend:* Jinja2 templates styled with modern CSS for a responsive, clean UI.
 
-### 📂 Project Structure
+## 📂 Project Structure
 ```text
 numeriq_fastapi/
 ├── app/
@@ -47,19 +47,25 @@ numeriq_fastapi/
 │   └── templates/     # The "Face": HTML & CSS frontend
 ├── main.py            # Entry point
 └── requirements.txt
+
 ---
-###🚀 Getting Started
+
+```
+bash
+## 🚀 Getting Started
+
 To get the project running locally, follow these steps:
 
-Bash
-# 1. Clone the repository
+### 1. Clone the repository
 git clone <your-repo-url>
 cd numeriq_fastapi
 
 # 2. Create and activate a virtual environment (Recommended)
 python -m venv venv
+
 # On Windows:
 .\venv\Scripts\activate
+
 # On macOS/Linux:
 source venv/bin/activate
 
@@ -69,8 +75,10 @@ pip install -r requirements.txt
 # 4. Launch the FastAPI development server
 uvicorn main:app --reload
 
-# 5. Access the application
-# Web UI: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-# API Docs (Swagger): [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+### 5. Access the application
 
+- Web UI: http://127.0.0.1:8000  
+- API Docs (Swagger): http://127.0.0.1:8000/docs
+
+```
 
