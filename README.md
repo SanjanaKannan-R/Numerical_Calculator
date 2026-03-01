@@ -49,7 +49,7 @@ numeriq_fastapi/
 └── requirements.txt
 
 
-🚀 Getting Started
+##🚀 Getting Started
 To get the project running locally, follow these steps:
 
 Bash
