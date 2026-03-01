@@ -51,34 +51,55 @@ numeriq_fastapi/
 ---
 
 ```
-bash
 ## 🚀 Getting Started
 
 To get the project running locally, follow these steps:
 
 ### 1. Clone the repository
+
+```
 git clone <your-repo-url>
 cd numeriq_fastapi
+```
 
 # 2. Create and activate a virtual environment (Recommended)
+
+```
 python -m venv venv
 
+```
+
 # On Windows:
+
+```
 .\venv\Scripts\activate
 
+```
+
 # On macOS/Linux:
+
+```
 source venv/bin/activate
 
+```
+
 # 3. Install required dependencies
+
+```
 pip install -r requirements.txt
 
+```
+
 # 4. Launch the FastAPI development server
+
+```
 uvicorn main:app --reload
+
+```
 
 ### 5. Access the application
 
 - Web UI: http://127.0.0.1:8000  
 - API Docs (Swagger): http://127.0.0.1:8000/docs
 
-```
 
